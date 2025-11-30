@@ -57,7 +57,7 @@ START_SEND_TIMEOUT = 20
 EXIT_DRIVER_TIMEOUT = 10
 QR_PATH = "qr_code.png"
 driver = None
-CHROMEDRIVER_PATH = resource_path("drivers/chromedriver")
+CHROMEDRIVER_PATH = resource_path("drivers/chromedriver.exe")
 KEEP_SESSION = False
 
 
@@ -247,7 +247,7 @@ class WhatsAppKivyApp(App):
         from kivy.core.window import Window
         Window.minimum_width = 700
         Window.minimum_height = 680
-        Window.size = (800, 750)
+        Window.size = (800, 900)
         Window.clearcolor = (0.96, 0.96, 0.96, 1)
 
         try:
@@ -349,10 +349,33 @@ class WhatsAppKivyApp(App):
         # === QR Preview Card ===
         qr_card = Card(padding=dp(12))
         self.qr_title_label = StyledLabel(text="")
-        self.qr_image = Image(source="", size_hint_y=0.8, allow_stretch=True, keep_ratio=True)
+
+        # بخش جدید: قرار دادن QR در یک AnchorLayout برای کنترل بهتر اندازه
+        qr_container = BoxLayout(
+            orientation='horizontal',
+            size_hint_y=None,
+            height=dp(220),  # فقط اینجا ارتفاع QR را تنظیم می‌کنیم
+            padding=[0, dp(10), 0, 0]
+        )
+        self.qr_image = Image(
+            source="",
+            allow_stretch=True,
+            keep_ratio=True,
+            size_hint_x=None,
+            width=dp(220),  # عرض ثابت برای تصویر QR
+            size_hint_y=1
+        )
+
+        # مرکز‌چین کردن QR در فضای در نظر گرفته شده
+        qr_spacer_left = Widget(size_hint_x=1)
+        qr_spacer_right = Widget(size_hint_x=1)
+        qr_container.add_widget(qr_spacer_left)
+        qr_container.add_widget(self.qr_image)
+        qr_container.add_widget(qr_spacer_right)
+
         qr_card.add_widget(self.qr_title_label)
-        qr_card.add_widget(self.qr_image)
-        qr_card.height = dp(280)
+        qr_card.add_widget(qr_container)
+        qr_card.height = dp(260)  # کمی بیشتر از ارتفاع تصویر + عنوان
         root.add_widget(qr_card)
 
         # === Start Button ===
