@@ -1,0 +1,9 @@
+pandas
+selenium
+openpyxl
+kivy
+pillow
+arabic-reshaper
+python-bidi
+pyinstaller
+pywin32
