@@ -26,6 +26,6 @@ Before running the bot, make sure you have the following installed:
 - ChromeDriver matching your browser version
 - Selenium library
 
-Install Selenium:
+Install Requirements:
 ```bash
-pip install selenium
+pip install -r requirements
